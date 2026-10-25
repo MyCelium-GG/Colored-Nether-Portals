@@ -1,0 +1,384 @@
+{
+ "__comment": "Colored Nether Portals: vanilla portal (tint 0) plus a grey swirl split into a 4x4 grid of cells (tints 1-16, row by row from the bottom, along the portal's axis), all on one plane. Uncolored portals show only vanilla; colored ones only the swirl, each cell in its own color so gradients fade smoothly.",
+ "textures": {
+  "particle": "colorednetherportals:block/portal_overlay",
+  "portal": "block/nether_portal",
+  "swirl": "colorednetherportals:block/portal_swirl"
+ },
+ "elements": [
+  {
+   "from": [
+    6,
+    0,
+    0
+   ],
+   "to": [
+    10,
+    16,
+    16
+   ],
+   "faces": {
+    "east": {
+     "texture": "#portal",
+     "tintindex": 0
+    },
+    "west": {
+     "texture": "#portal",
+     "tintindex": 0
+    }
+   }
+  },
+  {
+   "from": [
+    6,
+    0,
+    0
+   ],
+   "to": [
+    10,
+    4,
+    4
+   ],
+   "faces": {
+    "east": {
+     "texture": "#swirl",
+     "tintindex": 1
+    },
+    "west": {
+     "texture": "#swirl",
+     "tintindex": 1
+    }
+   }
+  },
+  {
+   "from": [
+    6,
+    0,
+    4
+   ],
+   "to": [
+    10,
+    4,
+    8
+   ],
+   "faces": {
+    "east": {
+     "texture": "#swirl",
+     "tintindex": 2
+    },
+    "west": {
+     "texture": "#swirl",
+     "tintindex": 2
+    }
+   }
+  },
+  {
+   "from": [
+    6,
+    0,
+    8
+   ],
+   "to": [
+    10,
+    4,
+    12
+   ],
+   "faces": {
+    "east": {
+     "texture": "#swirl",
+     "tintindex": 3
+    },
+    "west": {
+     "texture": "#swirl",
+     "tintindex": 3
+    }
+   }
+  },
+  {
+   "from": [
+    6,
+    0,
+    12
+   ],
+   "to": [
+    10,
+    4,
+    16
+   ],
+   "faces": {
+    "east": {
+     "texture": "#swirl",
+     "tintindex": 4
+    },
+    "west": {
+     "texture": "#swirl",
+     "tintindex": 4
+    }
+   }
+  },
+  {
+   "from": [
+    6,
+    4,
+    0
+   ],
+   "to": [
+    10,
+    8,
+    4
+   ],
+   "faces": {
+    "east": {
+     "texture": "#swirl",
+     "tintindex": 5
+    },
+    "west": {
+     "texture": "#swirl",
+     "tintindex": 5
+    }
+   }
+  },
+  {
+   "from": [
+    6,
+    4,
+    4
+   ],
+   "to": [
+    10,
+    8,
+    8
+   ],
+   "faces": {
+    "east": {
+     "texture": "#swirl",
+     "tintindex": 6
+    },
+    "west": {
+     "texture": "#swirl",
+     "tintindex": 6
+    }
+   }
+  },
+  {
+   "from": [
+    6,
+    4,
+    8
+   ],
+   "to": [
+    10,
+    8,
+    12
+   ],
+   "faces": {
+    "east": {
+     "texture": "#swirl",
+     "tintindex": 7
+    },
+    "west": {
+     "texture": "#swirl",
+     "tintindex": 7
+    }
+   }
+  },
+  {
+   "from": [
+    6,
+    4,
+    12
+   ],
+   "to": [
+    10,
+    8,
+    16
+   ],
+   "faces": {
+    "east": {
+     "texture": "#swirl",
+     "tintindex": 8
+    },
+    "west": {
+     "texture": "#swirl",
+     "tintindex": 8
+    }
+   }
+  },
+  {
+   "from": [
+    6,
+    8,
+    0
+   ],
+   "to": [
+    10,
+    12,
+    4
+   ],
+   "faces": {
+    "east": {
+     "texture": "#swirl",
+     "tintindex": 9
+    },
+    "west": {
+     "texture": "#swirl",
+     "tintindex": 9
+    }
+   }
+  },
+  {
+   "from": [
+    6,
+    8,
+    4
+   ],
+   "to": [
+    10,
+    12,
+    8
+   ],
+   "faces": {
+    "east": {
+     "texture": "#swirl",
+     "tintindex": 10
+    },
+    "west": {
+     "texture": "#swirl",
+     "tintindex": 10
+    }
+   }
+  },
+  {
+   "from": [
+    6,
+    8,
+    8
+   ],
+   "to": [
+    10,
+    12,
+    12
+   ],
+   "faces": {
+    "east": {
+     "texture": "#swirl",
+     "tintindex": 11
+    },
+    "west": {
+     "texture": "#swirl",
+     "tintindex": 11
+    }
+   }
+  },
+  {
+   "from": [
+    6,
+    8,
+    12
+   ],
+   "to": [
+    10,
+    12,
+    16
+   ],
+   "faces": {
+    "east": {
+     "texture": "#swirl",
+     "tintindex": 12
+    },
+    "west": {
+     "texture": "#swirl",
+     "tintindex": 12
+    }
+   }
+  },
+  {
+   "from": [
+    6,
+    12,
+    0
+   ],
+   "to": [
+    10,
+    16,
+    4
+   ],
+   "faces": {
+    "east": {
+     "texture": "#swirl",
+     "tintindex": 13
+    },
+    "west": {
+     "texture": "#swirl",
+     "tintindex": 13
+    }
+   }
+  },
+  {
+   "from": [
+    6,
+    12,
+    4
+   ],
+   "to": [
+    10,
+    16,
+    8
+   ],
+   "faces": {
+    "east": {
+     "texture": "#swirl",
+     "tintindex": 14
+    },
+    "west": {
+     "texture": "#swirl",
+     "tintindex": 14
+    }
+   }
+  },
+  {
+   "from": [
+    6,
+    12,
+    8
+   ],
+   "to": [
+    10,
+    16,
+    12
+   ],
+   "faces": {
+    "east": {
+     "texture": "#swirl",
+     "tintindex": 15
+    },
+    "west": {
+     "texture": "#swirl",
+     "tintindex": 15
+    }
+   }
+  },
+  {
+   "from": [
+    6,
+    12,
+    12
+   ],
+   "to": [
+    10,
+    16,
+    16
+   ],
+   "faces": {
+    "east": {
+     "texture": "#swirl",
+     "tintindex": 16
+    },
+    "west": {
+     "texture": "#swirl",
+     "tintindex": 16
+    }
+   }
+  }
+ ]
+}
