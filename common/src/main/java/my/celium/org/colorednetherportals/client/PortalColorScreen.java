@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.mojang.blaze3d.platform.InputConstants;
 
+import my.celium.org.client.MycelScreens;
 import my.celium.org.client.MycelTheme;
 import my.celium.org.colorednetherportals.ColoredNetherPortalsMod;
 import my.celium.org.colorednetherportals.data.PortalPainter;
@@ -433,7 +434,7 @@ public final class PortalColorScreen extends Screen {
 
     @Override
     public void onClose() {
-        minecraft.gui.setScreen(null);
+        MycelScreens.open(null);
     }
 
     // ================================================================ render

@@ -13,5 +13,5 @@ empty hand to open the color menu, or simply right-click it with a dye.
 - **Any server:** on servers without the mod your colors stay on your computer
 - **Config:** `allowAnimated`, `dyeColoring`, `consumeDye`, editable live with `/mycel set`
 
-Requires **Mycel** (install it alongside). Minecraft 26.3 on Fabric, Forge
+Requires **Mycel** (install it alongside). Minecraft 26.3, 26.2 and 26.1 on Fabric, Forge
 and NeoForge, Java 25. Docs: https://wiki.mycelium-gg.org/colorednetherportals/

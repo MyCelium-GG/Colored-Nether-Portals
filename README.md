@@ -14,7 +14,7 @@ the mod sees them. On a server without it, they are kept on your computer and
 only you see them. Vanilla players see the usual purple.
 
 Built on [Mycel](https://github.com/MyCelium-GG/MyCel-Lib) (`my.celium.org`), the
-shared MyCelium library. Minecraft 26.3, Fabric + Forge + NeoForge, Java 25.
+shared MyCelium library. Minecraft 26.3, 26.2 and 26.1, Fabric + Forge + NeoForge, Java 25.
 
 Docs: https://wiki.mycelium-gg.org/colorednetherportals/
 

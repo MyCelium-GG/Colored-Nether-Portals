@@ -8,5 +8,5 @@ rainbows, color cycles and pulses, with colored particles and travel swirl.
 - Saved with the world and shown to every player with the mod
 - Works on servers without the mod too (only you see the colors)
 
-Requires **Mycel**. Needs NeoForge 26.3.0.1-beta+, Minecraft 26.3, Java 25.
+Requires **Mycel**. Needs NeoForge, Minecraft 26.3, 26.2 or 26.1.2, Java 25.
 MIT license.

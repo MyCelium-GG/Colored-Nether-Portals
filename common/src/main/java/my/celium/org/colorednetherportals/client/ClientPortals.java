@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import my.celium.org.Mycel;
+import my.celium.org.client.MycelScreens;
 import my.celium.org.colorednetherportals.ColoredNetherPortalsMod;
 import my.celium.org.colorednetherportals.data.PortalPainter;
 import my.celium.org.colorednetherportals.data.PortalShape;
@@ -392,7 +393,7 @@ public final class ClientPortals {
         if (shape == null) {
             return false;
         }
-        minecraft.gui.setScreen(new PortalColorScreen(shape));
+        MycelScreens.open(new PortalColorScreen(shape));
         return true;
     }
 }

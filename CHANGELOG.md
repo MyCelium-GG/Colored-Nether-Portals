@@ -2,13 +2,15 @@
 
 All notable changes to Colored Nether Portals are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
-It runs on Minecraft 26.3 (Fabric + Forge + NeoForge, Java 25) and requires
+It runs on Minecraft 26.3, 26.2 and 26.1 (Fabric + Forge + NeoForge, Java 25) and requires
 [Mycel](https://github.com/MyCelium-GG/MyCel-Lib) (`my.celium.org`).
 
 ## [1.0.0] - Unreleased
 
 ### Added
 
+- Runs on Minecraft 26.3, 26.2 and 26.1 (26.1, 26.1.1, 26.1.2): one set of
+  Fabric, Forge and NeoForge jars per Minecraft line. Requires Mycel 1.5.1.
 - Sneak and right-click a Nether portal with an empty hand to open the color
   menu: Vanilla, Solid, Gradient, Rainbow, Color cycle and Pulse, with slow,
   normal and fast speeds for the animated ones, and a live preview of the portal.

@@ -6,12 +6,9 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 import com.mojang.blaze3d.platform.NativeImage;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.renderpearl.api.commands.CommandEncoder;
-import com.mojang.renderpearl.api.textures.GpuTexture;
-import com.mojang.renderpearl.api.textures.GpuTextureView;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import my.celium.org.client.MycelScreens;
 import my.celium.org.colorednetherportals.ColoredNetherPortalsMod;
 import my.celium.org.colorednetherportals.data.PortalPainter;
 import net.minecraft.client.Minecraft;
@@ -49,7 +46,8 @@ final class PortalOverlayTint {
     private static final int UNKNOWN = -2;
 
     private static List<?> statesSeen;
-    private static Int2ObjectMap<GpuTextureView> frames;
+    /** Our sprite's frame textures by frame index (GpuTextureView values, see FrameWriter). */
+    private static Int2ObjectMap<?> frames;
     private static NativeImage vanillaSheet;
     private static NativeImage swirlSheet;
     private static int shown = UNKNOWN;
@@ -63,7 +61,7 @@ final class PortalOverlayTint {
 
     /** Called every client tick. */
     static void tick(Minecraft minecraft) {
-        if (broken || minecraft.player == null && !(minecraft.gui.screen() instanceof LevelLoadingScreen)) {
+        if (broken || minecraft.player == null && !(MycelScreens.current() instanceof LevelLoadingScreen)) {
             return;
         }
         long now = Util.getMillis();
@@ -72,7 +70,7 @@ final class PortalOverlayTint {
         if (here >= 0) {
             heldColor = here;
             heldUntil = now + HOLD_MS;
-        } else if (now > heldUntil && !(minecraft.gui.screen() instanceof LevelLoadingScreen)) {
+        } else if (now > heldUntil && !(MycelScreens.current() instanceof LevelLoadingScreen)) {
             heldColor = VANILLA;
         }
         int wanted = ColoredNetherPortalsMod.isModEnabled() ? heldColor : VANILLA;
@@ -92,7 +90,6 @@ final class PortalOverlayTint {
     }
 
     /** Finds our sprite's frame textures; again after every resource reload. Returns whether they are known. */
-    @SuppressWarnings("unchecked")
     private static boolean locate(Minecraft minecraft) throws ReflectiveOperationException, IOException {
         AbstractTexture texture = minecraft.getTextureManager().getTexture(TextureAtlas.LOCATION_BLOCKS);
         if (!(texture instanceof TextureAtlas atlas)) {
@@ -110,7 +107,7 @@ final class PortalOverlayTint {
             Object animation = field(state.getClass(), "animationInfo").get(state);
             SpriteContents contents = (SpriteContents) field(animation.getClass(), "this$0").get(animation);
             if (SPRITE.equals(contents.name())) {
-                frames = (Int2ObjectMap<GpuTextureView>) field(state.getClass(), "frameTexturesByIndex").get(state);
+                frames = (Int2ObjectMap<?>) field(state.getClass(), "frameTexturesByIndex").get(state);
             }
         }
         closeSheets();
@@ -121,11 +118,10 @@ final class PortalOverlayTint {
 
     /** Uploads every frame: vanilla's, or the swirl tinted {@code rgb}. */
     private static void paint(int rgb) {
-        CommandEncoder encoder = RenderSystem.getDevice().createCommandEncoder();
+        FrameWriter writer = new FrameWriter();
         int tint = rgb < 0 ? 0 : PortalPainter.swirlTint(rgb);
-        for (Int2ObjectMap.Entry<GpuTextureView> entry : frames.int2ObjectEntrySet()) {
+        for (Int2ObjectMap.Entry<?> entry : frames.int2ObjectEntrySet()) {
             int frame = entry.getIntKey();
-            GpuTexture target = entry.getValue().texture();
             NativeImage image = new NativeImage(SIZE, SIZE, false);
             try {
                 NativeImage sheet = rgb < 0 ? vanillaSheet : swirlSheet;
@@ -136,7 +132,7 @@ final class PortalOverlayTint {
                         image.setPixel(x, y, rgb < 0 ? argb : tinted(argb, tint));
                     }
                 }
-                upload(encoder, target, image);
+                upload(writer, entry.getValue(), image);
             } finally {
                 image.close();
             }
@@ -154,10 +150,10 @@ final class PortalOverlayTint {
     }
 
     /** Mip 0 is the image; each further level averages 2x2 pixels of the one before. */
-    private static void upload(CommandEncoder encoder, GpuTexture target, NativeImage image) {
-        encoder.writeToTexture(target, image, 0, 0, 0, 0);
+    private static void upload(FrameWriter writer, Object frame, NativeImage image) {
+        writer.write(frame, image, 0);
         NativeImage previous = image;
-        for (int mip = 1; mip < target.getMipLevels(); mip++) {
+        for (int mip = 1, levels = writer.mipLevels(frame); mip < levels; mip++) {
             int size = Math.max(1, SIZE >> mip);
             NativeImage smaller = new NativeImage(size, size, false);
             for (int y = 0; y < size; y++) {
@@ -165,7 +161,7 @@ final class PortalOverlayTint {
                     smaller.setPixel(x, y, average(previous, x * 2, y * 2));
                 }
             }
-            encoder.writeToTexture(target, smaller, mip, 0, 0, 0);
+            writer.write(frame, smaller, mip);
             if (previous != image) {
                 previous.close();
             }
