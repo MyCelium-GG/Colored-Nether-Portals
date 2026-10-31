@@ -43,7 +43,7 @@ model's particle texture. No mixins.
 
 `./gradlew build`; `./gradlew :fabric:runClient -Pworld="<save>"` opens a world
 directly. Mycel comes from [JitPack](https://jitpack.io/#MyCelium-GG/MyCel-Lib)
-(`com.github.MyCelium-GG:MyCel-Lib:1.4.0`).
+(the version is `mycel_version` in `gradle.properties`).
 
 ## Releasing
 
