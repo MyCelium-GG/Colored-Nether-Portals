@@ -5,6 +5,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 It runs on Minecraft 26.3, 26.2 and 26.1 (Fabric + Forge + NeoForge, Java 25) and requires
 [Mycel](https://github.com/MyCelium-GG/MyCel-Lib) (`my.celium.org`).
 
+## [1.0.1] - 2026-11-02
+
+### Changed
+- Settings screen: on/off settings now show their real state when it opens (fixed in Mycel).
+- Built against the newest Fabric API, Forge and NeoForge, including the first stable NeoForge for 26.3.
+
 ## [1.0.0] - 2026-10-29
 
 ### Added
