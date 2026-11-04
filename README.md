@@ -39,6 +39,13 @@ from math, not copied from Minecraft. Particles are colored by wrapping the
 portal particle provider; the screen effect by rewriting the frames of the
 model's particle texture. No mixins.
 
+## Anonymous stats
+
+Colored Nether Portals sends anonymous stats (how many portals get colored, in which modes and with which dyes, and errors in its own code) to its FastStats project through
+Mycel. It follows Mycel's choice exactly: the one-time screen in your own
+game, `shareStats` / `shareErrors` in `config/mycel.json` on servers.
+Details: https://wiki.mycelium-gg.org/privacy#stats-colorednetherportals
+
 ## Building
 
 `./gradlew build`; `./gradlew :fabric:runClient -Pworld="<save>"` opens a world

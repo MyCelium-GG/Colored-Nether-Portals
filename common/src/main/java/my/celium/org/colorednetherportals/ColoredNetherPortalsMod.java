@@ -27,7 +27,7 @@ import my.celium.org.network.PacketDefinition;
 public final class ColoredNetherPortalsMod {
     public static final String ID = "colorednetherportals";
 
-    public static final ModMetadata META = ModMetadata.builder(ID, "Colored Nether Portals", "1.0.1")
+    public static final ModMetadata META = ModMetadata.builder(ID, "Colored Nether Portals", "1.0.2")
             .author("MyCelium")
             .website("https://www.curseforge.com/minecraft/mc-mods/colored-nether-portals")
             .updateUrl("https://wiki.mycelium-gg.org/updates/colorednetherportals.json")
@@ -63,6 +63,7 @@ public final class ColoredNetherPortalsMod {
         debug = builder.booleanValue("debug", false,
                 "Log color changes, syncing and clean-ups to the game log.");
         config = builder.build();
+        PortalStats.start();
 
         setPortal = PacketDefinition.toServer(SetPortalPacket.TYPE, SetPortalPacket.CODEC,
                 (packet, context) -> PortalColors.onSetPortal(packet, context.sender()));

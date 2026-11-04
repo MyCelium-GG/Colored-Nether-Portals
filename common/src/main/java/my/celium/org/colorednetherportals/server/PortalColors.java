@@ -161,6 +161,8 @@ public final class PortalColors {
             return;
         }
         apply(level, shape, style, player);
+        my.celium.org.colorednetherportals.PortalStats.count("screen_color");
+        my.celium.org.colorednetherportals.PortalStats.count("chosen_modes", style.mode().id());
     }
 
     /**
@@ -185,6 +187,8 @@ public final class PortalColors {
             return false;
         }
         apply(level, shape, style, player);
+        my.celium.org.colorednetherportals.PortalStats.count("dye_color");
+        my.celium.org.colorednetherportals.PortalStats.count("dye_colors", dye.getName());
         if (ColoredNetherPortalsMod.consumeDye.get() && !player.hasInfiniteMaterials()) {
             stack.shrink(1);
         }
@@ -195,6 +199,23 @@ public final class PortalColors {
     public static boolean onUse(net.minecraft.world.entity.player.Player player, net.minecraft.world.InteractionHand hand,
             BlockPos pos) {
         return player instanceof ServerPlayer serverPlayer && onUseDye(serverPlayer, pos, player.getItemInHand(hand));
+    }
+
+    /** Colored portals in the running world, or {@code null} when no world runs. For stats. */
+    public static Integer coloredCount() {
+        return server == null ? null : STORE.size();
+    }
+
+    /** Colored portals per mode in the running world, or {@code null}. For stats. */
+    public static java.util.Map<String, Integer> modeCounts() {
+        if (server == null || STORE.size() == 0) {
+            return null;
+        }
+        java.util.Map<String, Integer> counts = new java.util.TreeMap<>();
+        for (PortalStyle style : new ArrayList<>(STORE.all().values())) {
+            counts.merge(style.mode().id(), 1, Integer::sum);
+        }
+        return counts;
     }
 
     private static void apply(ServerLevel level, PortalShape shape, PortalStyle style, ServerPlayer player) {
