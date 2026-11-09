@@ -13,6 +13,8 @@
   <a href="https://github.com/MyCelium-GG/Colored-Nether-Portals/blob/main/LICENSE"><img src="https://img.shields.io/github/license/MyCelium-GG/Colored-Nether-Portals?style=flat-square&color=F2C14E" alt="License"></a>
 </p>
 
+<a href="https://www.curseforge.com/minecraft/mc-mods/mycel"><img src="https://raw.githubusercontent.com/MyCelium-GG/Colored-Nether-Portals/51a1b9e2007d/docs/img/banners/mycel-required.svg" alt="Mycel is required: this mod needs the Mycel library to run. Install Mycel next to it, for the same Minecraft version and loader. Download it from CurseForge." width="100%"></a>
+
 ![About the mod](https://raw.githubusercontent.com/MyCelium-GG/Colored-Nether-Portals/a9b14da4f8a9/docs/img/banners/about-the-mod.svg)
 
 <img src="https://raw.githubusercontent.com/MyCelium-GG/Colored-Nether-Portals/a9b14da4f8a9/docs/img/banners/about.svg" alt="Colored Nether Portals Sneak and right-click a portal with an empty hand to open a color menu: solid colors from the 16 dyes or any custom color, gradients through up to 16 colors, rainbows, color cycles and pulses, with a live preview. Or just right-click a portal with a dye. Gradients fade smoothly across the whole portal, the floating particles and the swirl over your screen while you travel take the portal's color too. On a server with the mod, colors are saved with the world and every player with the mod sees them. On a server without it, they are kept on your computer and only you see them. Vanilla players see the usual purple. Docs:" width="100%">
