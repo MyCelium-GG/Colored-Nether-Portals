@@ -145,12 +145,12 @@ public final class PortalColors {
             return;
         }
         if (!ColoredNetherPortalsMod.isModEnabled()) {
-            player.sendSystemMessage(VOICE.fail("Portal colors are turned off on this server."));
+            player.sendSystemMessage(VOICE.fail(ColoredNetherPortalsMod.LANG.get(player, "server.off")));
             return;
         }
         PortalStyle style = packet.style();
         if (style.animated() && !ColoredNetherPortalsMod.allowAnimated.get()) {
-            player.sendSystemMessage(VOICE.fail("Animated portals are turned off on this server."));
+            player.sendSystemMessage(VOICE.fail(ColoredNetherPortalsMod.LANG.get(player, "server.no_animated")));
             return;
         }
         ServerLevel level = (ServerLevel) player.level();

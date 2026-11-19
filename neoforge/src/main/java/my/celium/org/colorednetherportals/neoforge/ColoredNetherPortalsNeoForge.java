@@ -21,6 +21,17 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 @Mod(ColoredNetherPortalsMod.ID)
 public final class ColoredNetherPortalsNeoForge {
     public ColoredNetherPortalsNeoForge(IEventBus modBus, @SuppressWarnings("unused") ModContainer container) {
+        if (!net.neoforged.fml.ModList.get().isLoaded("mycel")) {
+            my.celium.org.colorednetherportals.MissingMycel.logOnce();
+            net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+                    (net.neoforged.neoforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent event) -> {
+                if (event.getEntity() instanceof net.minecraft.server.level.ServerPlayer player) {
+                    my.celium.org.colorednetherportals.MissingMycel.tell(player);
+                }
+            });
+            return;
+        }
+        my.celium.org.colorednetherportals.ModGate.open();
         ColoredNetherPortalsMod.init();
         NeoForge.EVENT_BUS.addListener(ColoredNetherPortalsNeoForge::onRightClickBlock);
         if (FMLEnvironment.getDist().isClient()) {

@@ -12,6 +12,9 @@ import net.minecraft.world.InteractionResult;
 public final class ColoredNetherPortalsFabricClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
+        if (!net.fabricmc.loader.api.FabricLoader.getInstance().isModLoaded("mycel")) {
+            return;
+        }
         FabricNetworking.flushClient();
         ClientTickEvents.END_CLIENT_TICK.register(client -> ClientPortals.tick());
         UseBlockCallback.EVENT.register((player, level, hand, hit) ->

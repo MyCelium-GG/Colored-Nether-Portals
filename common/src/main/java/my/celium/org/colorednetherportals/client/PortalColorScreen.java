@@ -58,10 +58,17 @@ public final class PortalColorScreen extends Screen {
     /** Preview size in px per block, at most a block's real 16 px. */
     static final int MAX_BLOCK = 16;
 
-    private static final String[] SPEEDS = {"Slow", "Normal", "Fast"};
-    private static final String[] ROW_BUTTONS = {"+", "-", "Reverse"};
-    private static final String[] ROW_TIPS = {"Add a color after the selected one", "Remove the selected color",
-            "Reverse the order"};
+    private static String[] speeds() {
+        return new String[] {tr("speed.slow"), tr("speed.normal"), tr("speed.fast")};
+    }
+
+    private static String[] rowLabels() {
+        return new String[] {"+", "-", tr("row.reverse")};
+    }
+
+    private static String[] rowTips() {
+        return new String[] {tr("row.add.tip"), tr("row.remove.tip"), tr("row.reverse.tip")};
+    }
     /** Night sky stars: x, y as fractions of the preview, fixed so they don't flicker. */
     private static final float[][] STARS = {{0.12f, 0.08f}, {0.3f, 0.2f}, {0.8f, 0.06f}, {0.66f, 0.27f},
             {0.18f, 0.42f}, {0.88f, 0.38f}, {0.45f, 0.12f}, {0.07f, 0.6f}, {0.92f, 0.55f}, {0.55f, 0.33f},
@@ -193,10 +200,10 @@ public final class PortalColorScreen extends Screen {
         }
         int y = sectionY() + 11 + 3;
         int x = x1();
-        for (String label : ROW_BUTTONS) {
+        for (String label : rowLabels()) {
             x -= font.width(label) + 12 + 3;
         }
-        for (String label : ROW_BUTTONS) {
+        for (String label : rowLabels()) {
             int w = font.width(label) + 12;
             x += 3;
             out.add(new Rect(x, y, w, ROW_H));
@@ -211,7 +218,7 @@ public final class PortalColorScreen extends Screen {
         int y = sectionY() + 11;
         if (!multi()) {
             for (int i = 0; i < colorCount(); i++) {
-                int w = Math.max(font.width("Color"), font.width("#000000")) + 30;
+                int w = Math.max(font.width(tr("color")), font.width("#000000")) + 30;
                 out.add(new Rect(x, y, w, 20));
             }
             return out;
@@ -287,9 +294,9 @@ public final class PortalColorScreen extends Screen {
             return out;
         }
         boolean beside = style.mode().colors > 0;
-        int x = beside ? square().x() + font.width("Speed") + 6 : x0();
+        int x = beside ? square().x() + font.width(tr("speed")) + 6 : x0();
         int y = beside ? hexRowY() : sectionY() + 11;
-        for (String label : SPEEDS) {
+        for (String label : speeds()) {
             int w = font.width(label) + 12;
             out.add(new Rect(x, y, w, ROW_H));
             x += w + 3;
@@ -302,7 +309,7 @@ public final class PortalColorScreen extends Screen {
     @Override
     protected void init() {
         String text = hex == null ? Colors.toHex(activeColor()) : hex.getValue();
-        hex = new EditBox(font, x0() + font.width("Hex") + 10, hexRowY() + 3, 50, 9, Component.literal("Hex color"));
+        hex = new EditBox(font, x0() + font.width(tr("hex")) + 10, hexRowY() + 3, 50, 9, Component.literal(tr("hex_color")));
         hex.setBordered(false);
         hex.setMaxLength(7);
         hex.setTextColor(MycelTheme.TEXT);
@@ -322,11 +329,11 @@ public final class PortalColorScreen extends Screen {
         int y = py() + panelH() - FOOTER + (FOOTER - FlatButton.HEIGHT) / 2;
         int right = x1();
         FlatButton back = new FlatButton(right - 54, y, 54, CommonComponents.GUI_BACK, false, this::onClose);
-        applyButton = new FlatButton(right - 54 - 4 - 64, y, 64, Component.literal("Apply"), true, this::apply);
-        FlatButton reset = new FlatButton(right - 54 - 4 - 64 - 4 - 54, y, 54, Component.literal("Reset"), false,
+        applyButton = new FlatButton(right - 54 - 4 - 64, y, 64, Component.literal(tr("apply")), true, this::apply);
+        FlatButton reset = new FlatButton(right - 54 - 4 - 64 - 4 - 54, y, 54, Component.literal(tr("reset")), false,
                 this::reset);
         reset.setTooltip(net.minecraft.client.gui.components.Tooltip.create(
-                Component.literal("Back to the vanilla purple portal")));
+                Component.literal(tr("reset.tip"))));
         addRenderableWidget(reset);
         addRenderableWidget(applyButton);
         addRenderableWidget(back);
@@ -401,11 +408,11 @@ public final class PortalColorScreen extends Screen {
         ClientPortals.set(minecraft.level, pos, style);
         ColoredNetherPortalsMod.debug("Applied {} at {} ({})", style, pos, shared ? "server" : "local");
         if (style.isVanilla()) {
-            flash("Back to the vanilla portal", MycelTheme.GOOD);
+            flash(tr("flash.vanilla"), MycelTheme.GOOD);
         } else if (shared) {
-            flash("Applied for everyone with the mod", MycelTheme.GOOD);
+            flash(tr("flash.applied"), MycelTheme.GOOD);
         } else {
-            flash("Applied on this computer only", MycelTheme.WARN);
+            flash(tr("flash.applied_local"), MycelTheme.WARN);
         }
     }
 
@@ -455,7 +462,7 @@ public final class PortalColorScreen extends Screen {
         gfx.fill(px + 2, py + TITLE_BAR - 1, px + pw - 2, py + TITLE_BAR, MycelTheme.HEADER_EDGE);
         gfx.text(font, title, px + 9, py + 7, MycelTheme.HEADING);
         boolean shared = ClientPortals.serverHasMod();
-        String scope = shared ? "Everyone with the mod sees this" : "Only you see this";
+        String scope = tr(shared ? "scope.shared" : "scope.local");
         int scopeX = px + pw - 9 - font.width(scope);
         if (scopeX > px + 9 + font.width(title) + 8) {
             gfx.text(font, scope, scopeX, py + 7, shared ? 0xFFFFCDD2 : MycelTheme.WARN);
@@ -470,9 +477,9 @@ public final class PortalColorScreen extends Screen {
         renderTiles(gfx, mouseX, mouseY);
         if (style.mode().colors > 0) {
             label(gfx, switch (style.mode()) {
-                case GRADIENT -> "COLORS, BOTTOM TO TOP";
-                case PULSE -> "COLORS, IN ORDER";
-                default -> "COLORS";
+                case GRADIENT -> tr("section.colors_bottom_up");
+                case PULSE -> tr("section.colors_in_order");
+                default -> tr("section.colors");
             }, x0(), sectionY());
             renderSlots(gfx, mouseX, mouseY);
             renderPalette(gfx, mouseX, mouseY);
@@ -498,8 +505,8 @@ public final class PortalColorScreen extends Screen {
         if (!hex.visible) {
             return;
         }
-        Rect box = new Rect(x0() + font.width("Hex") + 5, hexRowY(), 60, ROW_H);
-        gfx.text(font, "Hex", x0(), hexRowY() + 3, MycelTheme.DIM);
+        Rect box = new Rect(x0() + font.width(tr("hex")) + 5, hexRowY(), 60, ROW_H);
+        gfx.text(font, tr("hex"), x0(), hexRowY() + 3, MycelTheme.DIM);
         gfx.fill(box.x(), box.y(), box.right(), box.bottom(), hex.isFocused() ? MycelTheme.ACCENT : MycelTheme.BORDER);
         gfx.fill(box.x() + 1, box.y() + 1, box.right() - 1, box.bottom() - 1, 0xFF1B1B1B);
     }
@@ -566,7 +573,7 @@ public final class PortalColorScreen extends Screen {
         gfx.disableScissor();
         gfx.outline(r.x() - 1, r.y() - 1, r.w() + 2, r.h() + 2, MycelTheme.BORDER);
         // Day / night switch, and the portal's size.
-        String toggle = night ? "Night" : "Day";
+        String toggle = tr(night ? "preview.night" : "preview.day");
         Rect chip = new Rect(r.x() + 3, r.y() + 3, font.width(toggle) + 8, 12);
         boolean hover = r.contains(mx, my);
         gfx.fill(chip.x(), chip.y(), chip.right(), chip.bottom(), hover ? 0xC0000000 : 0x80000000);
@@ -576,7 +583,7 @@ public final class PortalColorScreen extends Screen {
         gfx.fill(r.right() - 3 - sw, r.y() + 3, r.right() - 3, r.y() + 15, hover ? 0xC0000000 : 0x80000000);
         gfx.text(font, size, r.right() - 3 - sw + 4, r.y() + 5, hover ? MycelTheme.HEADING : MycelTheme.DIM);
         if (hover) {
-            gfx.setTooltipForNextFrame(font, Component.literal("Click to switch to " + (night ? "day" : "night")), mx, my);
+            gfx.setTooltipForNextFrame(font, Component.literal(tr(night ? "preview.tip.day" : "preview.tip.night")), mx, my);
         }
     }
 
@@ -616,7 +623,7 @@ public final class PortalColorScreen extends Screen {
     // ------------------------------------------------------------ style tiles
 
     private void renderTiles(GuiGraphicsExtractor gfx, int mx, int my) {
-        label(gfx, "STYLE", x0(), top());
+        label(gfx, tr("section.style"), x0(), top());
         List<Rect> tiles = tiles();
         Mode[] modes = Mode.values();
         double ticks = ticks();
@@ -638,7 +645,7 @@ public final class PortalColorScreen extends Screen {
                 }
             }
             bx += 2 * cell - 4;
-            gfx.text(font, MycelTheme.fit(font, modes[i].label, r.w() - 18), bx + 9, r.y() + (r.h() - 8) / 2,
+            gfx.text(font, MycelTheme.fit(font, tr("mode." + modes[i].name().toLowerCase(java.util.Locale.ROOT)), r.w() - 18), bx + 9, r.y() + (r.h() - 8) / 2,
                     on || hover ? MycelTheme.HEADING : MycelTheme.TEXT);
         }
         gfx.text(font, MycelTheme.fit(font, description(style.mode()), x1() - x0()), x0(), descY(), MycelTheme.DIM);
@@ -646,12 +653,12 @@ public final class PortalColorScreen extends Screen {
 
     private static String description(Mode mode) {
         return switch (mode) {
-            case VANILLA -> "The usual purple portal.";
-            case SOLID -> "One color for the whole portal.";
-            case GRADIENT -> "Fades through your colors, bottom to top.";
-            case RAINBOW -> "Rainbow stripes flowing up the portal.";
-            case CYCLE -> "The whole portal runs through every color.";
-            case PULSE -> "Fades through your colors and back.";
+            case VANILLA -> tr("mode.vanilla.desc");
+            case SOLID -> tr("mode.solid.desc");
+            case GRADIENT -> tr("mode.gradient.desc");
+            case RAINBOW -> tr("mode.rainbow.desc");
+            case CYCLE -> tr("mode.cycle.desc");
+            case PULSE -> tr("mode.pulse.desc");
         };
     }
 
@@ -675,7 +682,7 @@ public final class PortalColorScreen extends Screen {
             if (!multi()) {
                 gfx.fill(r.x() + 1, r.y() + 1, r.right() - 1, r.bottom() - 1, on ? 0xFF2E2E2E : MycelTheme.SURFACE);
                 gfx.fill(r.x() + 3, r.y() + 3, r.x() + 19, r.bottom() - 3, 0xFF000000 | rgb);
-                gfx.text(font, "Color", r.x() + 23, r.y() + 2, on ? MycelTheme.HEADING : MycelTheme.TEXT);
+                gfx.text(font, tr("color"), r.x() + 23, r.y() + 2, on ? MycelTheme.HEADING : MycelTheme.TEXT);
                 gfx.text(font, Colors.toHex(rgb), r.x() + 23, r.y() + 11, MycelTheme.FAINT);
                 continue;
             }
@@ -686,8 +693,7 @@ public final class PortalColorScreen extends Screen {
                 gfx.fill(dx - 1, r.bottom() - 5, dx + 1, r.bottom() - 3, dot);
             }
             if (hover) {
-                gfx.setTooltipForNextFrame(font, Component.literal("Color " + (i + 1) + " of " + slots.size() + "  "
-                        + Colors.toHex(rgb)), mx, my);
+                gfx.setTooltipForNextFrame(font, Component.literal(tr("slot.tip", i + 1, slots.size()) + "  " + Colors.toHex(rgb)), mx, my);
             }
         }
         List<Rect> buttons = rowButtons();
@@ -696,11 +702,11 @@ public final class PortalColorScreen extends Screen {
             boolean usable = i == 0 ? style.colors().size() < PortalStyle.MAX_COLORS
                     : i == 1 ? style.colors().size() > style.mode().colors : true;
             boolean hover = usable && r.contains(mx, my);
-            chip(gfx, r, ROW_BUTTONS[i], false, hover);
+            chip(gfx, r, rowLabels()[i], false, hover);
             if (!usable) {
                 gfx.fill(r.x(), r.y(), r.right(), r.bottom(), 0x90101010);
             } else if (hover) {
-                gfx.setTooltipForNextFrame(font, Component.literal(ROW_TIPS[i]), mx, my);
+                gfx.setTooltipForNextFrame(font, Component.literal(rowTips()[i]), mx, my);
             }
         }
     }
@@ -723,7 +729,7 @@ public final class PortalColorScreen extends Screen {
         }
         if (hovered >= 0) {
             Colors.Preset preset = Colors.PRESETS[hovered];
-            gfx.setTooltipForNextFrame(font, Component.literal(preset.name() + "  " + Colors.toHex(preset.rgb())), mx, my);
+            gfx.setTooltipForNextFrame(font, Component.literal(tr("colors." + preset.name().toLowerCase(java.util.Locale.ROOT).replace(' ', '_')) + "  " + Colors.toHex(preset.rgb())), mx, my);
         }
     }
 
@@ -769,12 +775,12 @@ public final class PortalColorScreen extends Screen {
             return;
         }
         if (style.mode().colors == 0) {
-            label(gfx, "SPEED", x0(), sectionY());
+            label(gfx, tr("section.speed"), x0(), sectionY());
         } else {
-            gfx.text(font, "Speed", chips.get(0).x() - font.width("Speed") - 6, chips.get(0).y() + 3, MycelTheme.DIM);
+            gfx.text(font, tr("speed"), chips.get(0).x() - font.width(tr("speed")) - 6, chips.get(0).y() + 3, MycelTheme.DIM);
         }
         for (int i = 0; i < chips.size(); i++) {
-            chip(gfx, chips.get(i), SPEEDS[i], style.speed() == i + 1, chips.get(i).contains(mx, my));
+            chip(gfx, chips.get(i), speeds()[i], style.speed() == i + 1, chips.get(i).contains(mx, my));
         }
     }
 
@@ -786,13 +792,13 @@ public final class PortalColorScreen extends Screen {
             text = message;
             color = messageColor;
         } else if (changed()) {
-            text = "Not applied yet";
+            text = tr("footer.not_applied");
             color = MycelTheme.WARN;
         } else if (!ClientPortals.serverHasMod()) {
-            text = "This server doesn't have the mod";
+            text = tr("footer.no_server_mod");
             color = MycelTheme.FAINT;
         } else {
-            text = "Portal at " + pos.getX() + " " + pos.getY() + " " + pos.getZ();
+            text = tr("footer.portal_at", pos.getX() + " " + pos.getY() + " " + pos.getZ());
             color = MycelTheme.FAINT;
         }
         int max = x1() - 54 - 4 - 64 - 4 - 54 - 8 - (px() + 10);
@@ -902,5 +908,10 @@ public final class PortalColorScreen extends Screen {
             return true;
         }
         return super.keyPressed(event);
+    }
+
+    /** A text of this mod in the game's language. */
+    static String tr(String path, Object... args) {
+        return net.minecraft.client.resources.language.I18n.get("colorednetherportals." + path, args);
     }
 }

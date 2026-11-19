@@ -8,6 +8,7 @@ import my.celium.org.event.MycelEvents;
 import my.celium.org.event.ServerLifecycleEvent;
 import my.celium.org.logging.MycelLog;
 import my.celium.org.metadata.ModMetadata;
+import my.celium.org.translation.ModLang;
 import my.celium.org.colorednetherportals.net.PortalsPacket;
 import my.celium.org.colorednetherportals.net.SetPortalPacket;
 import my.celium.org.colorednetherportals.server.PortalColors;
@@ -27,7 +28,10 @@ import my.celium.org.network.PacketDefinition;
 public final class ColoredNetherPortalsMod {
     public static final String ID = "colorednetherportals";
 
-    public static final ModMetadata META = ModMetadata.builder(ID, "Colored Nether Portals", "1.0.2")
+    /** Server messages in each player's language (assets/colorednetherportals/lang). */
+    public static final ModLang LANG = ModLang.of("colorednetherportals", ColoredNetherPortalsMod.class);
+
+    public static final ModMetadata META = ModMetadata.builder(ID, "Colored Nether Portals", "1.1.0")
             .author("MyCelium")
             .website("https://www.curseforge.com/minecraft/mc-mods/colored-nether-portals")
             .updateUrl("https://wiki.mycelium-gg.org/updates/colorednetherportals.json")

@@ -23,6 +23,16 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
 @Mod(ColoredNetherPortalsMod.ID)
 public final class ColoredNetherPortalsForge {
     public ColoredNetherPortalsForge(@SuppressWarnings("unused") FMLJavaModLoadingContext context) {
+        if (!net.minecraftforge.fml.ModList.isLoaded("mycel")) {
+            my.celium.org.colorednetherportals.MissingMycel.logOnce();
+            net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent.BUS.addListener(event -> {
+                if (event.getEntity() instanceof net.minecraft.server.level.ServerPlayer player) {
+                    my.celium.org.colorednetherportals.MissingMycel.tell(player);
+                }
+            });
+            return;
+        }
+        my.celium.org.colorednetherportals.ModGate.open();
         ColoredNetherPortalsMod.init();
         PlayerInteractEvent.RightClickBlock.BUS.addListener(ColoredNetherPortalsForge::onRightClickBlock);
         if (FMLEnvironment.dist == Dist.CLIENT) {

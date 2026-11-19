@@ -13,6 +13,8 @@ Any color for your Nether portals. Sneak and right-click a portal with an empty 
 
 Install it on both sides to share colors. Vanilla players can join and see the usual purple. On a server without the mod, your colors stay on your computer.
 
+In 11 languages: English, German, Spanish, French, Dutch, Brazilian Portuguese, Russian, Polish, Italian, Japanese and Simplified Chinese.
+
 Requires [Mycel](https://www.curseforge.com/minecraft/mc-mods/mycel): install it alongside this mod. Minecraft 26.1, 26.2 and 26.3 on Fabric, Forge and NeoForge, Java 25. On Fabric you also need Fabric API.
 
 Every setting and command is on the [wiki](https://wiki.mycelium-gg.org/colorednetherportals/).

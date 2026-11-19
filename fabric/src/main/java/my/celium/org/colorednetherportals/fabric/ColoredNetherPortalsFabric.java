@@ -14,6 +14,13 @@ import net.minecraft.world.InteractionResult;
 public final class ColoredNetherPortalsFabric implements ModInitializer {
     @Override
     public void onInitialize() {
+        if (!net.fabricmc.loader.api.FabricLoader.getInstance().isModLoaded("mycel")) {
+            my.celium.org.colorednetherportals.MissingMycel.logOnce();
+            net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents.JOIN.register(
+                    (handler, sender, server) -> my.celium.org.colorednetherportals.MissingMycel.tell(handler.getPlayer()));
+            return;
+        }
+        my.celium.org.colorednetherportals.ModGate.open();
         ColoredNetherPortalsMod.init();
         FabricNetworking.flush();
         UseBlockCallback.EVENT.register((player, level, hand, hit) ->
